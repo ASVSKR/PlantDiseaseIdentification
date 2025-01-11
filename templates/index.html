@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="title">Plant Disease Classification</div>
+        <div class="buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container">
+        <h1>Plant Disease Classification Project</h1>
+        <hr>
+        <p style="text-align: justify;">
+            This is a web application that classifies plant diseases 
+            using a pre-trained Convolutional Neural Network (CNN) model.
+            MobileNetV2 has been used to train a CNN over 38 different types of
+            plant based diseases and the model is expected to predict the Disease.
+            <br>
+            <br>
+            Things acheived in this project are:
+            <ol style="color: white; text-align: justify;">
+                <li>DB has been created with multiple classes and related information to the disease</li>
+                <li>Model has been trained and deployed to identify the disease</li>
+            </ol>
+        </p>
+    </div>
+    {% block content %}{% endblock %}
+
+</body>
+</html>

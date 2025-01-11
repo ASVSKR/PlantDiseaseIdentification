@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<style>
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.532);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.flash-messages {
+    color: #e74c3c;
+}
+
+.upload-form input[type="file"] {
+    margin: 10px 0;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.uploaded-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+</style>
+<body>
+    <body>
+        <div class="navbar">
+            <div class="title">Plant Disease Classification</div>
+            <div class="buttons">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="{{ url_for('add_class_info') }}" class="btn">Add Class Information</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    
+        <div class="container" style="margin-top: 10rem;">
+            <h1 style="color: white;">Dashboard</h1>
+            <hr>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+    
+            <!-- Upload form -->
+            <form action="/dashboard/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+                <label style="color: white;" for="file">Upload an Image:</label>
+                <input type="file" id="file" name="file" required>
+                <button type="submit">Upload Image</button>
+            </form>
+    
+            <!-- Show uploaded image and Predict button -->
+            {% if image_url %}
+                <h3 style="color: white;">Uploaded Image:</h3>
+                <img src="{{ image_url }}" alt="Uploaded Image" class="uploaded-image">
+                <form action="/dashboard/predict" method="POST">
+                    <input type="hidden" name="image_path" value="{{ image_url }}">
+                    <button type="submit" class="btn">Predict Image</button>
+                </form>
+                
+            {% endif %}
+        </div>
+    </body>
+</html>

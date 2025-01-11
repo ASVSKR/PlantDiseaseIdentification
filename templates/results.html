@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="title">Plant Disease Classification</div>
+        <div class="buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <!-- Back to Dashboard button -->
+                <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="container result-container" style="color: white;">
+        <h1>Prediction Result</h1>
+        <hr>
+        <div class="result-content">
+            <!-- Left: Uploaded Image -->
+            <div class="image-section">
+                <h3>Uploaded Image:</h3>
+                <img src="{{ image_path }}" alt="Uploaded Image" class="uploaded-image">
+            </div>
+    
+            <!-- Right: Prediction Info -->
+            <div class="info-section">
+                <h4>Class Name:</h4>
+                <p>{{ prediction }}</p>
+                <h4>Description:</h4>
+                <p>{{ description }}</p>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
