@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Class Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="title">Plant Disease Classification</div>
+        <div class="buttons">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container" style="color: white;">
+        <h1>Add Class Information</h1>
+        <hr>
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Form to add or update class information -->
+        <form action="{{ url_for('add_class_info') }}" method="POST">
+            <label for="class_name">Class Name:</label>
+            <select style="width: 60%;padding: 2%;margin: 2%;" id="class_name" name="class_name" required>
+                {% for key, value in folder_dict.items() %}
+                    <option value="{{ value }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="description">Description:</label>
+            <textarea style="width: 60%;" id="description" name="description" rows="4" required></textarea>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>
